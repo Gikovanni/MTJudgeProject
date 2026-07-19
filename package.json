@@ -6,6 +6,9 @@
     "start": "npm --prefix apps/mobile run start",
     "build": "npm --prefix apps/mobile run build",
     "test": "npm --prefix apps/mobile run test",
-    "lint": "npm --prefix apps/mobile run lint"
+    "test:ci": "npm --prefix apps/mobile run test:ci",
+    "lint": "npm --prefix apps/mobile run lint",
+    "rules:index": "npm --prefix apps/mobile run rules:index",
+    "rules:validate": "npm --prefix apps/mobile run rules:validate"
   }
 }
