@@ -1,1 +1,54 @@
-C:\Users\gikov
+<ion-header [translucent]="true">
+  <ion-toolbar><ion-title>MTJudge</ion-title></ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense"><ion-toolbar><ion-title size="large">MTJudge</ion-title></ion-toolbar></ion-header>
+  <main class="search-page">
+    <section class="intro">
+      <p class="eyebrow">REGRAS ABRANGENTES</p>
+      <h1>Consulte a regra durante a partida.</h1>
+      <p>Pesquise palavras-chave, dúvidas ou o número da regra. Os resultados são encontrados localmente no documento oficial.</p>
+    </section>
+
+    <section class="search-panel" aria-label="Pesquisa de regras">
+      <ion-searchbar [(ngModel)]="query" placeholder="Ex.: Como funciona atropelar?" [debounce]="0" (keyup.enter)="search()" (ionClear)="clear()"></ion-searchbar>
+      <div class="search-actions">
+        <ion-button (click)="search()" [disabled]="loading"><ion-spinner *ngIf="loading" name="crescent"></ion-spinner><span *ngIf="!loading">Pesquisar</span></ion-button>
+        <ion-button fill="clear" (click)="clear()" [disabled]="!query">Limpar</ion-button>
+      </div>
+      <div class="examples" *ngIf="!searched"><span>Experimente:</span><ion-chip *ngFor="let example of examples" (click)="search(example)">{{ example }}</ion-chip></div>
+    </section>
+
+    <ion-text color="danger" *ngIf="errorMessage" class="error-message">{{ errorMessage }}</ion-text><ion-note class="correction-note" *ngIf="execution && (execution.correctedTerms | keyvalue).length">Pesquisa ampliada com: <strong *ngFor="let correction of execution.correctedTerms | keyvalue; let last = last">{{ correction.key }} → {{ correction.value }}<span *ngIf="!last">, </span></strong></ion-note>
+    <section class="empty-state" *ngIf="!searched && !loading"><ion-icon name="book-outline"></ion-icon><h2>Pesquisa rápida e rastreável</h2><p>Todo resultado informa a regra, o trecho encontrado e a página do PDF de origem.</p></section>
+    <section class="no-results" *ngIf="searched && !loading && !errorMessage && results.length === 0"><h2>Nenhuma regra encontrada</h2><p>Tente outro termo, uma palavra-chave em inglês ou o número da regra.</p></section>
+
+    <section class="results" *ngIf="results.length">
+      <div class="results-heading"><h2>Regras relacionadas</h2><ion-note>{{ results.length }} resultado(s)</ion-note></div>
+      <ion-card *ngFor="let result of results">
+        <ion-card-header>
+          <div class="rule-meta"><ion-badge [color]="result.confidence === 'high' ? 'success' : result.confidence === 'medium' ? 'warning' : 'medium'">{{ result.confidence === 'high' ? 'Alta confiança' : result.confidence === 'medium' ? 'Confiança média' : 'Baixa confiança' }}</ion-badge><ion-note>Regra {{ result.id }} · pág. {{ result.page }}</ion-note></div>
+          <ion-card-title>{{ result.title }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="summary" *ngIf="result.summary">{{ result.summary }}</p>
+          <p class="excerpt">{{ result.excerpt }}</p>
+          <p class="matched-terms" *ngIf="result.matchedTerms.length">Termos relacionados: {{ result.matchedTerms.join(', ') }}</p>
+          <ion-button (click)="openDetail(result.id)" size="small">Ver detalhes</ion-button>
+          <ion-button [href]="pdfUrl(result.page)" target="_blank" rel="noopener noreferrer" fill="outline" size="small">Ver no PDF oficial</ion-button>
+        </ion-card-content>
+      </ion-card>
+    </section>
+
+    <section class="recent-searches" *ngIf="recentEntries$ | async as entries">
+      <div class="results-heading" *ngIf="entries.length"><h2>Consultas recentes</h2><ion-button routerLink="/history" fill="clear" size="small">Ver todas</ion-button></div>
+      <ion-list *ngIf="entries.length" lines="inset">
+        <ion-item *ngFor="let entry of entries" button detail="true" (click)="search(entry.query)">
+          <ion-label><h3>{{ entry.query }}</h3><p>{{ entry.totalResults }} resultado(s)<span *ngIf="entry.selectedRuleId"> · Regra {{ entry.selectedRuleId }}</span></p></ion-label>
+          <ion-icon *ngIf="entry.favorite" name="star" color="warning" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
+    </section>
+  </main>
+</ion-content>
