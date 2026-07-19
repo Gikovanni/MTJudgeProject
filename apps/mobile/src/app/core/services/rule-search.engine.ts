@@ -74,6 +74,11 @@ const summaryFor = (terms: string[]): string | undefined => terms
   .map((term) => SUMMARY_BY_TERM[term])
   .find((summary) => Boolean(summary));
 
+export const summaryForRule = (rule: RuleDocument): string | undefined => summaryFor([
+  normalizeRuleText(rule.title),
+  ...Object.keys(SUMMARY_BY_TERM).filter((term) => normalizeRuleText(rule.text).includes(term)),
+]);
+
 export const searchRules = (rules: RuleDocument[], query: string, limit = 10): RuleSearchResult[] => {
   const normalizedQuery = normalizeRuleText(query);
   if (!normalizedQuery) return [];

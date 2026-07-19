@@ -24,3 +24,9 @@ export interface RuleSearchResult extends RuleDocument {
   score: number;
   summary?: string;
 }
+
+export interface RuleDetail {
+  relatedRules: RuleDocument[];
+  rule: RuleDocument;
+  summary?: string;
+}
