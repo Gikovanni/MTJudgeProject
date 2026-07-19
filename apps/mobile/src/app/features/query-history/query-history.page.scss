@@ -1,0 +1,9 @@
+.history-page { margin: 0 auto; max-width: 52rem; padding: 1.5rem; }
+.intro { color: var(--ion-color-medium-shade); line-height: 1.5; margin-bottom: 1.5rem; }
+ion-card { margin-inline: 0; }
+.entry-header { align-items: flex-start; display: flex; justify-content: space-between; gap: 1rem; }
+.entry-header h2 { font-size: 1.05rem; margin: 0 0 .25rem; }
+.entry-header p, ion-card-content > p { color: var(--ion-color-medium-shade); font-size: .85rem; margin: 0; }
+.entry-actions { display: flex; gap: .25rem; margin-top: 1rem; }
+.empty-history { padding: 5rem 1.5rem; text-align: center; }
+.empty-history ion-icon { color: var(--ion-color-primary); font-size: 3rem; }

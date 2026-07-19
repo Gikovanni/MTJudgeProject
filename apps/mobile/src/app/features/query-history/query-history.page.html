@@ -1,0 +1,24 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/home" text="Busca"></ion-back-button></ion-buttons>
+    <ion-title>Histórico</ion-title>
+    <ion-buttons slot="end"><ion-button color="danger" (click)="clear()">Limpar</ion-button></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="entries$ | async as entries">
+    <main class="history-page" *ngIf="entries.length; else emptyHistory">
+      <p class="intro">Suas consultas ficam neste dispositivo para facilitar dúvidas recorrentes durante a partida.</p>
+      <ion-card *ngFor="let entry of entries">
+        <ion-card-content>
+          <div class="entry-header"><div><h2>{{ entry.query }}</h2><p>{{ entry.searchedAt | date:'short' }} · {{ entry.totalResults }} resultado(s)</p></div><ion-button fill="clear" size="small" (click)="toggleFavorite(entry.id)" [attr.aria-label]="entry.favorite ? 'Remover favorito' : 'Favoritar'">{{ entry.favorite ? '★' : '☆' }}</ion-button></div>
+          <p *ngIf="entry.selectedRuleId">Regra aberta: {{ entry.selectedRuleId }}</p>
+          <div class="entry-actions"><ion-button size="small" (click)="repeat(entry)">Repetir busca</ion-button><ion-button fill="clear" color="danger" size="small" (click)="remove(entry.id)">Excluir</ion-button></div>
+        </ion-card-content>
+      </ion-card>
+    </main>
+  </ng-container>
+
+  <ng-template #emptyHistory><main class="empty-history"><ion-icon name="time-outline"></ion-icon><h1>Sem consultas ainda</h1><p>As buscas realizadas aparecerão aqui.</p><ion-button routerLink="/home">Ir para a busca</ion-button></main></ng-template>
+</ion-content>

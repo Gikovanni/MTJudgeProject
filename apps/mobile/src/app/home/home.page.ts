@@ -1,5 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map } from 'rxjs';
 import { RuleSearchResult } from '../core/models/rule.model';
+import { QueryHistoryService } from '../core/services/query-history.service';
 import { RuleSearchService } from '../core/services/rule-search.service';
 
 @Component({
@@ -8,14 +11,26 @@ import { RuleSearchService } from '../core/services/rule-search.service';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
+  private readonly history = inject(QueryHistoryService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly ruleSearch = inject(RuleSearchService);
+  readonly recentEntries$ = this.history.entries$.pipe(map((entries) => entries.slice(0, 3)));
+  private activeHistoryId?: string;
   query = '';
   results: RuleSearchResult[] = [];
   searched = false;
   loading = false;
   errorMessage = '';
   readonly examples = ['Como funciona atropelar?', 'Toque mortífero', 'ETB', '702.19'];
+
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      const query = params.get('q');
+      if (query && query !== this.query) this.search(query);
+    });
+  }
 
   search(query = this.query): void {
     this.query = query;
@@ -30,6 +45,7 @@ export class HomePage {
     this.ruleSearch.search(trimmedQuery).subscribe({
       next: (results) => {
         this.results = results;
+        this.activeHistoryId = this.history.recordSearch(trimmedQuery, results.length);
         this.loading = false;
       },
       error: () => {
@@ -48,6 +64,11 @@ export class HomePage {
 
   pdfUrl(page: number): string {
     return `assets/rules/MagicCompRules.pdf#page=${page}`;
+  }
+
+  openDetail(ruleId: string): void {
+    this.history.markSelected(this.activeHistoryId, ruleId);
+    this.router.navigate(['/rules', ruleId]);
   }
 
 }

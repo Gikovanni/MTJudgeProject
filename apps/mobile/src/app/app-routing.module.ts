@@ -11,6 +11,10 @@ const routes: Routes = [
     loadChildren: () => import('./features/rule-detail/rule-detail.module').then( m => m.RuleDetailPageModule)
   },
   {
+    path: 'history',
+    loadChildren: () => import('./features/query-history/query-history.module').then( m => m.QueryHistoryPageModule)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
