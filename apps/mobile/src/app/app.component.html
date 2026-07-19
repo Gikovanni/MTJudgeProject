@@ -1,1 +1,8 @@
-﻿<ion-app><ion-router-outlet></ion-router-outlet><ion-tab-bar slot="bottom" class="main-tabs"><ion-tab-button tab="search" routerLink="/home" routerLinkActive="tab-selected"><ion-icon name="search-outline"></ion-icon><ion-label>Busca</ion-label></ion-tab-button><ion-tab-button tab="history" routerLink="/history" routerLinkActive="tab-selected"><ion-icon name="time-outline"></ion-icon><ion-label>Histórico</ion-label></ion-tab-button><ion-tab-button tab="performance" routerLink="/performance" routerLinkActive="tab-selected"><ion-icon name="analytics-outline"></ion-icon><ion-label>Desempenho</ion-label></ion-tab-button></ion-tab-bar></ion-app>
+﻿<ion-app>
+  <ion-router-outlet></ion-router-outlet>
+  <nav class="main-tabs" aria-label="Navegação principal">
+    <a routerLink="/home" routerLinkActive="tab-selected"><ion-icon name="search-outline"></ion-icon><span>Busca</span></a>
+    <a routerLink="/history" routerLinkActive="tab-selected"><ion-icon name="time-outline"></ion-icon><span>Histórico</span></a>
+    <a routerLink="/performance" routerLinkActive="tab-selected"><ion-icon name="analytics-outline"></ion-icon><span>Desempenho</span></a>
+  </nav>
+</ion-app>

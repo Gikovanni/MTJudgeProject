@@ -1,1 +1,4 @@
-﻿.main-tabs { border-top: 1px solid var(--ion-color-light-shade); }
+﻿.main-tabs { align-items: center; background: var(--ion-background-color, #fff); border-top: 1px solid var(--ion-color-light-shade); bottom: 0; display: flex; justify-content: space-around; left: 0; padding: .35rem env(safe-area-inset-right) calc(.35rem + env(safe-area-inset-bottom)) env(safe-area-inset-left); position: fixed; right: 0; z-index: 10; }
+.main-tabs a { align-items: center; color: var(--ion-color-medium); display: flex; flex: 1; flex-direction: column; font-size: .72rem; gap: .15rem; padding: .25rem; text-align: center; text-decoration: none; }
+.main-tabs ion-icon { font-size: 1.35rem; }
+.main-tabs .tab-selected { color: var(--ion-color-primary); font-weight: 700; }
