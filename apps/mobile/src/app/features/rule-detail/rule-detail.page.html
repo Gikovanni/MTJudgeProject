@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start"><ion-back-button defaultHref="/home" text="Busca"></ion-back-button></ion-buttons>
+    <ion-title>Detalhe da regra</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="detail$ | async as detail; else notFound">
+    <main class="detail-page">
+      <p class="eyebrow">REGRA {{ detail.rule.id }} · PÁGINA {{ detail.rule.page }}</p>
+      <h1>{{ detail.rule.title }}</h1>
+      <ion-segment [(ngModel)]="mode" aria-label="Modo de leitura">
+        <ion-segment-button value="summary"><ion-label>Resumo</ion-label></ion-segment-button>
+        <ion-segment-button value="official"><ion-label>Texto oficial</ion-label></ion-segment-button>
+      </ion-segment>
+
+      <section class="summary-panel" *ngIf="mode === 'summary'">
+        <h2>Em linguagem simples</h2>
+        <p *ngIf="detail.summary; else officialOnly">{{ detail.summary }}</p>
+        <ng-template #officialOnly><p>Esta regra ainda não possui um resumo local. Consulte o texto oficial abaixo para a referência completa.</p></ng-template>
+        <ion-button (click)="mode = 'official'" fill="outline" size="small">Ler texto oficial</ion-button>
+      </section>
+
+      <section class="official-text" *ngIf="mode === 'official'">
+        <h2>Texto oficial</h2>
+        <p>{{ detail.rule.text }}</p>
+      </section>
+
+      <ion-button [href]="pdfUrl(detail.rule.page)" target="_blank" rel="noopener noreferrer" fill="outline">Abrir PDF oficial na página {{ detail.rule.page }}</ion-button>
+
+      <section class="related-rules" *ngIf="detail.relatedRules.length">
+        <h2>Subregras relacionadas</h2>
+        <ion-list lines="inset">
+          <ion-item *ngFor="let related of detail.relatedRules" [routerLink]="['/rules', related.id]" detail="true">
+            <ion-label><p>{{ related.id }}</p><h3>{{ related.title }}</h3></ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+    </main>
+  </ng-container>
+
+  <ng-template #notFound>
+    <main class="not-found"><ion-icon name="alert-circle-outline"></ion-icon><h1>Regra não encontrada</h1><p>Essa referência não existe na base local atual.</p><ion-button routerLink="/home">Voltar à busca</ion-button></main>
+  </ng-template>
+</ion-content>

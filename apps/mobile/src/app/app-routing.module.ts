@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
+    path: 'rules/:id',
+    loadChildren: () => import('./features/rule-detail/rule-detail.module').then( m => m.RuleDetailPageModule)
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
