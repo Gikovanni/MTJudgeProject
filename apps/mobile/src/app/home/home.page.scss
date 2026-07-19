@@ -1,24 +1,126 @@
-#container {
-  max-width: 36rem;
+.search-page {
+  max-width: 52rem;
   margin: 0 auto;
-  padding: 4rem 1.5rem;
+  padding: 1.5rem;
+}
+
+.intro {
+  margin: 1.25rem 0 1.75rem;
+}
+
+.eyebrow {
+  color: var(--ion-color-primary);
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  margin-bottom: .5rem;
+}
+
+h1 {
+  font-size: clamp(1.9rem, 7vw, 2.7rem);
+  line-height: 1.1;
+  margin: 0 0 .75rem;
+}
+
+.intro>p:last-child,
+.empty-state p,
+.no-results p,
+.excerpt {
+  color: var(--ion-color-medium-shade);
+  line-height: 1.5;
+}
+
+.search-panel {
+  background: var(--ion-card-background, var(--ion-color-light));
+  border-radius: 1rem;
+  box-shadow: 0 .4rem 1.5rem rgb(0 0 0 / 8%);
+  padding: .5rem;
+}
+
+.search-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .25rem;
+  padding: 0 .5rem .5rem;
+}
+
+.search-actions ion-spinner {
+  margin-right: .4rem;
+}
+
+.examples {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: .85rem;
+  gap: .25rem;
+  padding: 0 .5rem .5rem;
+}
+
+.examples ion-chip {
+  cursor: pointer;
+}
+
+.empty-state,
+.no-results {
+  padding: 4rem 1rem;
   text-align: center;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.empty-state ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 3rem;
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+.error-message {
+  display: block;
+  margin-top: 1rem;
 }
 
-#container a {
-  text-decoration: none;
+.results {
+  margin-top: 2rem;
+}
+
+.results-heading,
+.rule-meta {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.results-heading h2 {
+  font-size: 1.25rem;
+}
+
+ion-card {
+  margin-inline: 0;
+}
+
+.rule-meta {
+  font-size: .8rem;
+  margin-bottom: .75rem;
+}
+
+.summary {
+  border-left: .2rem solid var(--ion-color-primary);
+  color: var(--ion-color-dark);
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  padding-left: .75rem;
+}
+
+.excerpt {
+  font-size: .9rem;
+}
+
+.matched-terms {
+  color: var(--ion-color-medium-shade);
+  font-size: .8rem;
+}
+
+@media (min-width: 768px) {
+  .search-page {
+    padding-top: 2.5rem;
+  }
 }

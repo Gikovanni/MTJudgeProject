@@ -9,18 +9,21 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoGpu",
+    "lint": "ng lint",
+    "rules:index": "node scripts/import-rules.mjs",
+    "rules:validate": "node scripts/validate-rules-index.mjs"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "20.3.25",
-    "@angular/common": "20.3.25",
-    "@angular/compiler": "20.3.25",
-    "@angular/core": "20.3.25",
-    "@angular/forms": "20.3.25",
-    "@angular/platform-browser": "20.3.25",
-    "@angular/platform-browser-dynamic": "20.3.25",
-    "@angular/router": "20.3.25",
+    "@angular/animations": "20.3.26",
+    "@angular/common": "20.3.26",
+    "@angular/compiler": "20.3.26",
+    "@angular/core": "20.3.26",
+    "@angular/forms": "20.3.26",
+    "@angular/platform-browser": "20.3.26",
+    "@angular/platform-browser-dynamic": "20.3.26",
+    "@angular/router": "20.3.26",
     "@ionic/angular": "^8.0.0",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
@@ -28,15 +31,15 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "20.3.28",
+    "@angular-devkit/build-angular": "20.3.32",
     "@angular-eslint/builder": "20.7.0",
     "@angular-eslint/eslint-plugin": "20.7.0",
     "@angular-eslint/eslint-plugin-template": "20.7.0",
     "@angular-eslint/schematics": "20.7.0",
     "@angular-eslint/template-parser": "20.7.0",
-    "@angular/cli": "20.3.28",
-    "@angular/compiler-cli": "20.3.25",
-    "@angular/language-service": "20.3.25",
+    "@angular/cli": "20.3.32",
+    "@angular/compiler-cli": "20.3.26",
+    "@angular/language-service": "20.3.26",
     "@ionic/angular-toolkit": "^12.0.0",
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^8.18.0",
@@ -52,6 +55,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "pdfjs-dist": "6.1.200",
     "typescript": "~5.9.0"
   }
 }

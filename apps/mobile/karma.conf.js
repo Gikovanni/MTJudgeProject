@@ -36,6 +36,12 @@ module.exports = function (config) {
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
+    customLaunchers: {
+      ChromeHeadlessNoGpu: {
+        base: 'ChromeHeadless',
+        flags: ['--disable-gpu', '--disable-software-rasterizer', '--disable-dev-shm-usage']
+      }
+    },
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
