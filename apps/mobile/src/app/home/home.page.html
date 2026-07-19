@@ -35,10 +35,20 @@
           <p class="summary" *ngIf="result.summary">{{ result.summary }}</p>
           <p class="excerpt">{{ result.excerpt }}</p>
           <p class="matched-terms" *ngIf="result.matchedTerms.length">Termos relacionados: {{ result.matchedTerms.join(', ') }}</p>
-          <ion-button [routerLink]="['/rules', result.id]" size="small">Ver detalhes</ion-button>
+          <ion-button (click)="openDetail(result.id)" size="small">Ver detalhes</ion-button>
           <ion-button [href]="pdfUrl(result.page)" target="_blank" rel="noopener noreferrer" fill="outline" size="small">Ver no PDF oficial</ion-button>
         </ion-card-content>
       </ion-card>
+    </section>
+
+    <section class="recent-searches" *ngIf="recentEntries$ | async as entries">
+      <div class="results-heading" *ngIf="entries.length"><h2>Consultas recentes</h2><ion-button routerLink="/history" fill="clear" size="small">Ver todas</ion-button></div>
+      <ion-list *ngIf="entries.length" lines="inset">
+        <ion-item *ngFor="let entry of entries" button detail="true" (click)="search(entry.query)">
+          <ion-label><h3>{{ entry.query }}</h3><p>{{ entry.totalResults }} resultado(s)<span *ngIf="entry.selectedRuleId"> · Regra {{ entry.selectedRuleId }}</span></p></ion-label>
+          <ion-icon *ngIf="entry.favorite" name="star" color="warning" slot="end"></ion-icon>
+        </ion-item>
+      </ion-list>
     </section>
   </main>
 </ion-content>
