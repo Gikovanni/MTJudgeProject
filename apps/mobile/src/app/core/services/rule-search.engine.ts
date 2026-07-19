@@ -31,10 +31,12 @@ export const searchRules = (rules: RuleDocument[], index: RulesSearchIndex, quer
   const correctedTerms: Record<string, string> = {}; const baseTerms = termsFor(query); const searchedTerms = baseTerms.map((term) => { if (index.documentFrequency[term]) return term; const correction = correctedTerm(term, index.vocabulary); if (correction && correction !== term) correctedTerms[term] = correction; return correction ?? term; });
   const exactId = /^\d{3}\.\d+(?:[a-z])?$/.test(normalizedQuery) ? normalizedQuery : undefined;
   const documentById = new Map(index.documents.map((document) => [document.id, document])); const total = rules.length;
-  const results = rules.map((rule) => { const document = documentById.get(rule.id); if (!document) return undefined; const title = normalizeRuleText(rule.title); const text = normalizeRuleText(rule.text); let score = exactId === normalizeRuleText(rule.id) ? 100 : 0; const matchedTerms: string[] = [];
+  const results: RuleSearchResult[] = []; for (const rule of rules) { const document = documentById.get(rule.id); if (!document) continue; const title = normalizeRuleText(rule.title); const text = normalizeRuleText(rule.text); let score = exactId === normalizeRuleText(rule.id) ? 100 : 0; const matchedTerms: string[] = [];
     searchedTerms.forEach((term) => { const frequency = document.termFrequencies[term] ?? 0; if (!frequency) return; const idf = Math.log(1 + (total - (index.documentFrequency[term] ?? 0) + .5) / ((index.documentFrequency[term] ?? 0) + .5)); const k1 = 1.2; const b = .75; score += idf * (frequency * (k1 + 1)) / (frequency + k1 * (1 - b + b * document.length / index.averageDocumentLength)); if (title.includes(term)) score += 4; matchedTerms.push(term); });
     if (title.includes(normalizedQuery)) score += 12; if (text.includes(normalizedQuery)) score += 4;
-    return score > 0 ? { ...rule, confidence: confidenceFor(score), excerpt: excerptFor(rule.text, searchedTerms), matchedTerms, score, summary: undefined } : undefined;
-  }).filter((result): result is RuleSearchResult => Boolean(result)).sort((left, right) => right.score - left.score || left.id.localeCompare(right.id, undefined, { numeric: true })).slice(0, limit);
+    if (score > 0) results.push({ ...rule, confidence: confidenceFor(score), excerpt: excerptFor(rule.text, searchedTerms), matchedTerms, score });
+  }
+  results.sort((left, right) => right.score - left.score || left.id.localeCompare(right.id, undefined, { numeric: true }));
+  results.splice(limit);
   const rankingDurationMs = performance.now() - started; return { algorithmVersion: index.version, correctedTerms, durationMs: durationBeforeRanking + rankingDurationMs, normalizedQuery, rankingDurationMs, results, searchedTerms };
 };
