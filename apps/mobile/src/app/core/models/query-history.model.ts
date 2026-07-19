@@ -1,8 +1,1 @@
-export interface QueryHistoryEntry {
-  favorite: boolean;
-  id: string;
-  query: string;
-  searchedAt: string;
-  selectedRuleId?: string;
-  totalResults: number;
-}
+﻿export interface QueryHistoryEntry { algorithmVersion?: string; correctedTerms?: Record<string, string>; durationMs?: number; favorite: boolean; id: string; normalizedQuery?: string; query: string; rankingDurationMs?: number; searchedAt: string; searchedTerms?: string[]; selectedRuleId?: string; topConfidence?: 'high' | 'medium' | 'low'; totalResults: number; }

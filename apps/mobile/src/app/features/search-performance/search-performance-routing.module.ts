@@ -1,0 +1,1 @@
+﻿import { NgModule } from '@angular/core'; import { RouterModule, Routes } from '@angular/router'; import { SearchPerformancePage } from './search-performance.page'; const routes: Routes = [{ path: '', component: SearchPerformancePage }]; @NgModule({ imports: [RouterModule.forChild(routes)], exports: [RouterModule] }) export class SearchPerformancePageRoutingModule {}

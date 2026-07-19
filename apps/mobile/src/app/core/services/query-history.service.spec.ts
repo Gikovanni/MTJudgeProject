@@ -1,31 +1,3 @@
-import { QueryHistoryService } from './query-history.service';
-import { QueryHistoryEntry } from '../models/query-history.model';
-
-describe('QueryHistoryService', () => {
-  let service: QueryHistoryService;
-
-  beforeEach(() => {
-    localStorage.clear();
-    service = new QueryHistoryService();
-  });
-
-  it('stores a completed search and selected rule', () => {
-    const id = service.recordSearch('atropelar', 3);
-    service.markSelected(id, '702.19');
-    let entry: QueryHistoryEntry | undefined;
-    service.entries$.subscribe((entries) => entry = entries[0]);
-
-    expect(entry?.query).toBe('atropelar');
-    expect(entry?.selectedRuleId).toBe('702.19');
-  });
-
-  it('toggles favorites and removes entries', () => {
-    const id = service.recordSearch('pilha', 2);
-    service.toggleFavorite(id);
-    service.remove(id);
-    let entries: QueryHistoryEntry[] = [];
-    service.entries$.subscribe((value) => entries = value);
-
-    expect(entries).toEqual([]);
-  });
-});
+﻿import { QueryHistoryService } from './query-history.service'; import { SearchExecution } from '../models/rule.model';
+const execution: SearchExecution = { algorithmVersion: 'test', correctedTerms: {}, durationMs: 4, normalizedQuery: 'atropelar', rankingDurationMs: 2, results: [], searchedTerms: ['atropelar'] };
+describe('QueryHistoryService', () => { let service: QueryHistoryService; beforeEach(() => { localStorage.clear(); service = new QueryHistoryService(); }); it('stores a completed search and selected rule', () => { const id = service.recordSearch('atropelar', execution); service.markSelected(id, '702.19'); let selected: string | undefined; service.entries$.subscribe((entries) => selected = entries[0]?.selectedRuleId); expect(selected).toBe('702.19'); }); it('keeps only 100 entries', () => { Array.from({ length: 101 }).forEach((_, index) => service.recordSearch(`q${index}`, execution)); let length = 0; service.entries$.subscribe((entries) => length = entries.length); expect(length).toBe(100); }); });

@@ -1,0 +1,2 @@
+﻿import { NgModule } from '@angular/core'; import { CommonModule } from '@angular/common'; import { IonicModule } from '@ionic/angular'; import { RouterModule } from '@angular/router'; import { SearchPerformancePageRoutingModule } from './search-performance-routing.module'; import { SearchPerformancePage } from './search-performance.page';
+@NgModule({ declarations: [SearchPerformancePage], imports: [CommonModule, IonicModule, RouterModule, SearchPerformancePageRoutingModule] }) export class SearchPerformancePageModule {}
