@@ -20,7 +20,7 @@
       <div class="examples" *ngIf="!searched"><span>Experimente:</span><ion-chip *ngFor="let example of examples" (click)="search(example)">{{ example }}</ion-chip></div>
     </section>
 
-    <ion-text color="danger" *ngIf="errorMessage" class="error-message">{{ errorMessage }}</ion-text><ion-note class="correction-note" *ngIf="execution && (execution.correctedTerms | keyvalue).length">Pesquisa ampliada com: <strong *ngFor="let correction of execution.correctedTerms | keyvalue; let last = last">{{ correction.key }} → {{ correction.value }}<span *ngIf="!last">, </span></strong></ion-note>
+    <p *ngIf="errorMessage" class="error-message" role="alert">{{ errorMessage }}</p><ion-note class="correction-note" *ngIf="execution && (execution.correctedTerms | keyvalue).length">Pesquisa ampliada com: <strong *ngFor="let correction of execution.correctedTerms | keyvalue; let last = last">{{ correction.key }} → {{ correction.value }}<span *ngIf="!last">, </span></strong></ion-note>
     <section class="empty-state" *ngIf="!searched && !loading"><ion-icon name="book-outline"></ion-icon><h2>Pesquisa rápida e rastreável</h2><p>Todo resultado informa a regra, o trecho encontrado e a página do PDF de origem.</p></section>
     <section class="no-results" *ngIf="searched && !loading && !errorMessage && results.length === 0"><h2>Nenhuma regra encontrada</h2><p>Tente outro termo, uma palavra-chave em inglês ou o número da regra.</p></section>
 
@@ -41,6 +41,16 @@
       </ion-card>
     </section>
 
+    <section class="reddit-reference" *ngIf="searched">
+      <ion-card>
+        <ion-card-header><ion-card-title>Discussões no Reddit</ion-card-title></ion-card-header>
+        <ion-card-content>
+          <p>Pesquise experiências da comunidade para este termo diretamente no Reddit.</p>
+          <ion-button [href]="redditSearchUrl()" target="_blank" rel="noopener noreferrer" fill="outline" size="small">Pesquisar no Reddit</ion-button>
+          <ion-note class="reddit-disclaimer">Discussões comunitárias não substituem o texto oficial das regras.</ion-note>
+        </ion-card-content>
+      </ion-card>
+    </section>
     <section class="recent-searches" *ngIf="recentEntries$ | async as entries">
       <div class="results-heading" *ngIf="entries.length"><h2>Consultas recentes</h2><ion-button routerLink="/history" fill="clear" size="small">Ver todas</ion-button></div>
       <ion-list *ngIf="entries.length" lines="inset">

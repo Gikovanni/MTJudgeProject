@@ -32,3 +32,7 @@ npm run lint
 A branch `main` contém somente a base estável. Cada funcionalidade deve ser desenvolvida em uma branch própria, com commit independente, para merge manual posterior.
 
 O PDF das regras e o roadmap permanecem no repositório como fontes de referência. O processamento e a indexação do PDF serão implementados em uma funcionalidade específica.
+
+## Reddit (opcional)
+
+Após uma pesquisa, o app oferece um link para pesquisar o mesmo termo diretamente no Reddit. Não há integração com a API, OAuth, tokens ou coleta de dados pelo MTJudge.
